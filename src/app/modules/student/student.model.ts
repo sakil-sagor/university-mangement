@@ -1,6 +1,4 @@
-import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
-import config from '../../config';
 import { Guardian, Student, UserName } from './student.interface';
 
 const userNameSchema = new Schema<UserName>(
@@ -47,9 +45,11 @@ const studentSchema = new Schema<Student>(
     id: {
       type: String,
     },
-    password: {
-      type: String,
-      required: true,
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'user id is required'],
+      unique: true,
+      ref: 'User',
     },
     name: {
       type: userNameSchema,
@@ -84,11 +84,7 @@ const studentSchema = new Schema<Student>(
     guardian: guardingSchema,
 
     prifileImg: { type: String },
-    isActive: {
-      type: String,
-      enum: ['active', 'inActive'],
-      default: 'active',
-    },
+
     isDeleted: {
       type: Boolean,
       default: false,
@@ -104,12 +100,6 @@ const studentSchema = new Schema<Student>(
 // virtual
 studentSchema.virtual('fullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
-});
-
-// pre middleware for hash pasword
-studentSchema.pre('save', async function (next) {
-  this.password = await bcrypt.hash(this.password, Number(config.saltRounds));
-  next();
 });
 
 studentSchema.pre('find', async function (next) {
@@ -128,12 +118,6 @@ studentSchema.pre('findOne', async function (next) {
 
 studentSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
-  next();
-});
-
-// after post password will be empty
-studentSchema.post('save', async function (doc, next) {
-  doc.password = '';
   next();
 });
 

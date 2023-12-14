@@ -1,12 +1,6 @@
 import { Types } from 'mongoose';
-import { Student } from './student.interface';
 import { StudentModel } from './student.model';
 
-// for create student
-const createStudentIntoDb = async (student: Student) => {
-  const result = await StudentModel.create(student);
-  return result;
-};
 // get all of students
 const getallStudentFromDb = async () => {
   const result = await StudentModel.find();
@@ -31,7 +25,6 @@ const deleteStudentFromDb = async (studentId: string) => {
 };
 
 export const StudentServices = {
-  createStudentIntoDb,
   getallStudentFromDb,
   getSingleStudentFromDb,
   deleteStudentFromDb,

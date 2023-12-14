@@ -6,5 +6,6 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
 export default {
   port: process.env.PORT,
   database_url: process.env.MONGO_URI,
-  saltRounds:process.env.SALT_ROUND,
+  saltRounds: process.env.SALT_ROUND,
+  default_password: process.env.DEFAULT_PASS,
 };
