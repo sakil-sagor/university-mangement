@@ -10,7 +10,6 @@ const catchAsync = (fn: RequestHandler) => {
 const getSingleStudent = catchAsync(async (req, res, next) => {
   const { studentId } = req.params;
   const result = await StudentServices.getSingleStudentFromDb(studentId);
-
   res.status(200).json({
     success: true,
     message: 'Student  retrieved successfully',
@@ -19,18 +18,15 @@ const getSingleStudent = catchAsync(async (req, res, next) => {
 });
 
 // get all student from db
-const getallStudent: RequestHandler = async (req, res, next) => {
-  try {
-    const result = await StudentServices.getallStudentFromDb();
-    res.status(200).json({
-      success: true,
-      message: 'Student are retrieved successfully',
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+const getallStudent = catchAsync(async (req, res, next) => {
+  const result = await StudentServices.getallStudentFromDb();
+  res.status(200).json({
+    success: true,
+    message: 'Student are retrieved successfully',
+    data: result,
+  });
+});
+
 // get single student from db
 // const getSingleStudent: RequestHandler = async (req, res, next) => {
 //   try {
