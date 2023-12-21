@@ -51,19 +51,6 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-// const guardingSchema = new Schema<TGuardian>(
-//   {
-//     fatherName: { type: String },
-//     fatherOccupation: { type: String },
-//     fatherContactNo: { type: String },
-//     motherName: { type: String },
-//     motherOccupation: { type: String },
-//     motherContactNo: { type: String },
-//   },
-//   {
-//     _id: false,
-//   },
-// );
 const guardianSchema = new Schema<TGuardian>({
   fatherName: {
     type: String,
